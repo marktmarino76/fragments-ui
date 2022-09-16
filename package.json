@@ -1,0 +1,22 @@
+{
+  "name": "fragments2-ui",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Fragments UI testing web app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx parcel src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/humphd/fragments-ui.git"
+  },
+  "author": "David Humphrey <david.humphrey@senecacollege.ca>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "aws-amplify": "^4.3.35"
+  },
+  "devDependencies": {
+    "parcel": "^2.7.0"
+  }
+}
