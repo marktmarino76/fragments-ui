@@ -10,44 +10,59 @@ const apiUrl = process.env.API_URL || 'http://localhost:8080';
  */
 export async function getUserFragments(user) {
   console.log('Requesting user fragments data...');
-
+  console.log("HELLO THERE");
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       // Generate headers with the proper Authorization bearer token to pass
       headers: user.authorizationHeaders(),
     });
+    console.log("HELLO THERE 1");
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    console.log("HELLO THERE 2");
+    const data = await res.json();
+    console.log("HELLO THERE 3");
+    console.log('Got user fragments data', data.fragments );
+  } catch (err) {
+    console.error('Unable to call GET /v1/fragment', { err });
+  }
+}
 
+export async function getUserFragmentsById(user,id) {
+  console.log('Requesting user fragments data BY ID');
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+      // Generate headers with the proper Authorization bearer token to pass
+      headers: user.authorizationHeaders(),
+    });
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
     const data = await res.json();
-    console.log('Got user fragments data', { data });
+     console.log(data);
   } catch (err) {
-    console.error('Unable to call GET /v1/fragment', { err });
+    console.error('Unable to call GET /v1/fragment/:id', { err });
   }
 }
 
 export async function postFragments(user) {
   console.log('Posting user fragments data...');
  
-  console.log(user)
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       // Generate headers with the proper Authorization bearer token to pass
-      'headers': user.authorizationHeaders('text/plain'),
-      'method': 'POST',
-      'content-type': ' text/plain',
-      'body': '1239213821',
+       headers: user.authorizationHeaders('text/plain'),
+       method: 'POST',
+       body: 'gurt',
       cache: 'no-cache'
     });
-
-    console.log("response")
-    console.log(res)
 
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
     const data = await res.json();
+    return data;
     console.log('Got user fragments data for post request', { data });
   } catch (err) {
     console.error('Unable to call POST/v1/fragment', { err });
