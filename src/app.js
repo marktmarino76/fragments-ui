@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { getUserFragments } from './api';
+import { getUserFragments, postFragments } from './api';
 
 async function init() {
   // Get our UI elements
@@ -25,6 +25,8 @@ async function init() {
   const user = await getUser();
    // Do an authenticated request to the fragments API server and log the result
    getUserFragments(user);
+
+   postFragments(user);
    
   if (!user) {
     // Disable the Logout button
