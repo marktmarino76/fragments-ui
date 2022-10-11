@@ -8,6 +8,7 @@ async function init() {
   const userSection = document.querySelector('#user');
   const loginBtn = document.querySelector('#login');
   const logoutBtn = document.querySelector('#logout');
+  const postRequestBtn = document.querySelector('#postrequest');
 
   // Wire up event handlers to deal with login and logout.
   loginBtn.onclick = () => {
@@ -20,18 +21,26 @@ async function init() {
     // https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-out
     Auth.signOut();
   };
+  postRequestBtn.onclick = async () => {
+    //Sends post request to create a new fragment
+    const postResult =  await postFragments(user);
+    //Console log the ID of the newly created fragment
+    console.log("POST RESULT ID: " + postResult.fragment.id);
+    //Get that newly created fragment by a GET /:ID request
+     await getUserFragmentsById(user,postResult.fragment.id);
+  };
 
   // See if we're signed in (i.e., we'll have a `user` object)
   const user = await getUser();
    // Do an authenticated request to the fragments API server and log the result
-   const postResult =  await postFragments(user);
-   console.log("WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-   console.log(postResult.fragment.id);
+
    await getUserFragments(user);
-   await getUserFragmentsById(user,postResult.fragment.id);
+  
+  
   if (!user) {
     // Disable the Logout button
     logoutBtn.disabled = true;
+    postRequestBtn.disabled = true;
     return;
   }
 
