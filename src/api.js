@@ -10,6 +10,7 @@ const apiUrl = process.env.API_URL;
  * to have an `idToken` attached, so we can send that along with the request.
  */
 export async function getUserFragments(user) {
+  
   console.log('GET list of user fragments data... UI');
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
@@ -65,5 +66,28 @@ export async function postFragments(user) {
     
   } catch (err) {
     console.error('Unable to call POST/v1/fragment', { err });
+  }
+}
+
+export async function getUserFragmentsViaExpand(user) {
+  console.log('GET/ expand user fragments data... TO UI');
+ 
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments?expand=1`, {
+      // Generate headers with the proper Authorization bearer token to pass
+       headers: user.authorizationHeaders('text/plain'),
+       method: 'GET',
+       cache: 'no-cache'
+    });
+
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    console.log('GET EXPAND: FRONT END', { data });
+    return data;
+    
+  } catch (err) {
+    console.error('Unable to call GET/v1/fragment/expand', { err });
   }
 }
