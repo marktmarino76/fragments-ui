@@ -75,9 +75,7 @@ export async function getUserFragmentsViaExpand(user) {
   try {
     const res = await fetch(`${apiUrl}/v1/fragments?expand=1`, {
       // Generate headers with the proper Authorization bearer token to pass
-       headers: user.authorizationHeaders('text/plain'),
-       method: 'GET',
-       cache: 'no-cache'
+       headers: user.authorizationHeaders()
     });
 
     if (!res.ok) {
