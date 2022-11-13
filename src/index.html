@@ -10,8 +10,22 @@
   <body>
     <h1>Fragments UI</h1>  
     <section>
+      <section>
         <nav><button id="login">Login</button> <button id="logout">Logout</button>
+        </section>
+        <section>
+            <select id = "myDropdown" >  
+              <option> ---Choose the type of fragment you would like to POST--- </option>  
+              <option value="application/json"> application/json </option>  
+              <option value="text/plain"> text/plain </option>  
+              <option value="text/markdown"> text/markdown </option>  
+              <option value="text/html"> text/html </option>  
+              </select>  
+              <break></break>>>
+              <input id="thedata" type="text"></input>
+             
           <button id="postrequest">Send Post Request</button>
+        </section>
           <button id="getexpandrequest">Send GET EXPAND Request</button></nav>
       </section>
       <section hidden id="user">

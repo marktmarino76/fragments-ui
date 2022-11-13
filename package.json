@@ -5,7 +5,9 @@
   "description": "Fragments UI testing web app",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx parcel src/index.html"
+    "start": "npx parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "serve":"parcel src/index.html"
   },
   "repository": {
     "type": "git",
@@ -15,7 +17,8 @@
   "license": "UNLICENSED",
   "dependencies": {
     "aws-amplify": "^4.3.35",
-    "dotenv": "^16.0.2"
+    "dotenv": "^16.0.2",
+    "prettier": "^2.7.1"
   },
   "devDependencies": {
     "parcel": "^2.7.0",
