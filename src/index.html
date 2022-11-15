@@ -14,6 +14,7 @@
         <nav><button id="login">Login</button> <button id="logout">Logout</button>
         </section>
         <section>
+          <label><b>Enter a Content-Type for the Post Request:</b></label>
             <select id = "myDropdown" >  
               <option> ---Choose the type of fragment you would like to POST--- </option>  
               <option value="application/json"> application/json </option>  
@@ -21,7 +22,8 @@
               <option value="text/markdown"> text/markdown </option>  
               <option value="text/html"> text/html </option>  
               </select>  
-              <break></break>>>
+              <break></break>
+              <label><b>Enter text for the body of the Post Request:</b></label>
               <input id="thedata" type="text"></input>
              
           <button id="postrequest">Send Post Request</button>

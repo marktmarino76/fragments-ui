@@ -9,12 +9,6 @@ const apiUrl = process.env.API_URL;
  * fragments microservice (currently only running locally). We expect a user
  * to have an `idToken` attached, so we can send that along with the request.
  */
- async function getOption() {
-  selectElement = document.querySelector('#myDropdown');
-  output = selectElement.value;
-  return output;
-}
-
 
 export async function getUserFragments(user) {
   
@@ -29,6 +23,7 @@ export async function getUserFragments(user) {
     }
     console.log(res);
     const data = await res.json();
+    console.log("HEY THERE SALLY");
     console.log('GET list of user fragments data... UI', data.fragments );
     return data;
   } catch (err) {
@@ -38,11 +33,11 @@ export async function getUserFragments(user) {
 
 export async function getUserFragmentsById(user,id) {
   console.log('Get specifc user /v1/fragments/:id data BY ID... in UI');
-  let value = await getOption();
+  const dropDownOption = document.querySelector('#myDropdown');
   try {
     const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
       // Generate headers with the proper Authorization bearer token to pass
-      headers: user.authorizationHeaders(value),
+      headers: user.authorizationHeaders(dropDownOption.value),
     });
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
@@ -55,24 +50,20 @@ export async function getUserFragmentsById(user,id) {
   }
 }
  function getTextBoxValue(){
-  selectElement = document.querySelector('#thedata');
-  output = selectElement.value;
+  
   return output;
 }
 
 export async function postFragments(user) {
   console.log('Posting user fragments data... TO UI');
-  let value = await getOption();
-  let textBoxValue =  getTextBoxValue();
-  let textBoxData = (textBoxValue!= "") ? textBoxValue : "This is a fragment";
-  console.log("VALUE OF TEXT BOX");
-  console.log(textBoxData);
+  const dropDownOption = document.querySelector('#myDropdown');
+  const selectElement = document.querySelector('#thedata');
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       // Generate headers with the proper Authorization bearer token to pass
-       headers: user.authorizationHeaders(value),
+       headers: user.authorizationHeaders(dropDownOption.value),
        method: 'POST',
-       body: textBoxData,
+       body: selectElement.value,
        cache: 'no-cache'
     });
     if (!res.ok) {
