@@ -27,7 +27,7 @@ async function init() {
     //Console log the ID of the newly created fragment
     console.log("POST RESULT ID: " + postResult.fragment.id);
     //Get that newly created fragment by a GET /:ID request
-     await getUserFragmentsById(user,postResult.fragment.id);
+    //  await getUserFragmentsById(user,postResult.fragment.id);
   };
   getExpandRequestBtn.onclick = async () => {
     await getUserFragmentsViaExpand(user);
