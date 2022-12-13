@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { getUserFragments, postFragments,getUserFragmentsById,getUserFragmentsViaExpand } from './api';
+import { getUserFragments, postFragments,getUserFragmentsById,getUserFragmentsViaExpand,putFragments } from './api';
 
 async function init() {
   // Get our UI elements
@@ -9,6 +9,7 @@ async function init() {
   const loginBtn = document.querySelector('#login');
   const logoutBtn = document.querySelector('#logout');
   const postRequestBtn = document.querySelector('#postrequest');
+  const putRequestBtn = document.querySelector('#putrequest');
   const getExpandRequestBtn= document.querySelector('#getexpandrequest');
   // Wire up event handlers to deal with login and logout.
   loginBtn.onclick = () => {
@@ -28,6 +29,9 @@ async function init() {
     console.log("POST RESULT ID: " + postResult.fragment.id);
     //Get that newly created fragment by a GET /:ID request
     //  await getUserFragmentsById(user,postResult.fragment.id);
+  };
+  putRequestBtn.onclick = async ()=>{
+    const putResult =  await putFragments(user);
   };
   getExpandRequestBtn.onclick = async () => {
     await getUserFragmentsViaExpand(user);

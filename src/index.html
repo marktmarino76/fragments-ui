@@ -14,6 +14,7 @@
         <nav><button id="login">Login</button> <button id="logout">Logout</button>
         </section>
         <section>
+          <h3><u>Create Post Request</u></h3>  
           <label><b>Enter a Content-Type for the Post Request:</b></label>
             <select id = "myDropdown" >  
               <option> ---Choose the type of fragment you would like to POST--- </option>  
@@ -28,9 +29,21 @@
              
           <button id="postrequest">Send Post Request</button>
         </section>
+        <section>
+          <h3><u>Create PUT Request</u></h3>  
+              <break></break>
+              <label><b>Enter the ID of the fragment you would like to update:</b></label>
+              <input id="putRequestId" type="text"></input>
+              <label><b>Enter text for the body of the PUT Request:</b></label>
+              <input id="putRequestBody" type="text"></input>
+             
+          <button id="putrequest">Send PUT Request</button>
+        </section>
+        <h3><u>Send GET EXPAND Request</u></h3>  
           <button id="getexpandrequest">Send GET EXPAND Request</button></nav>
       </section>
       <section hidden id="user">
+        
         <h2>Hello <span class="username"></span>!</h2>
       </section>                              
   </body>

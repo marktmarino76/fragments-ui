@@ -49,10 +49,7 @@ export async function getUserFragmentsById(user,id) {
     console.error('Unable to call GET /v1/fragment/:id', { err });
   }
 }
- function getTextBoxValue(){
-  
-  return output;
-}
+
 
 export async function postFragments(user) {
   console.log('Posting user fragments data... TO UI');
@@ -63,7 +60,7 @@ export async function postFragments(user) {
       // Generate headers with the proper Authorization bearer token to pass
        headers: user.authorizationHeaders(dropDownOption.value),
        method: 'POST',
-       body: selectElement.value,
+       body: await selectElement.value,
        cache: 'no-cache'
     });
     if (!res.ok) {
@@ -75,6 +72,30 @@ export async function postFragments(user) {
     
   } catch (err) {
     console.error('Unable to call POST/v1/fragment', { err });
+  }
+}
+
+export async function putFragments(user){
+  console.log('UPDATE user fragments data.');
+  const selectElement = document.querySelector('#putRequestBody');
+  const getPutRequestId = document.querySelector('#putRequestId');
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${getPutRequestId.value}`, {
+      // Generate headers with the proper Authorization bearer token to pass
+       headers: user.authorizationHeaders('text/plain'),
+       method: 'PUT',
+       body: await selectElement.value,
+       cache: 'no-cache'
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    console.log('PUT: - user fragments data for PUT request in FRAGMENTS-UI', { data });
+    return data;
+    
+  } catch (err) {
+    console.error('Unable to call PUT/v1/fragment', { err });
   }
 }
 
