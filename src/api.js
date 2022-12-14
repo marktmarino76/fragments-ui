@@ -99,6 +99,27 @@ export async function putFragments(user){
   }
 }
 
+export async function deleteFragments(user){
+  const fragmentIdToDelete = document.querySelector('#deleteRequestId').value;
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${fragmentIdToDelete}`, {
+      // Generate headers with the proper Authorization bearer token to pass
+       headers: user.authorizationHeaders('text/plain'),
+       method: 'DELETE',
+       cache: 'no-cache'
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    console.log('PUT: - user fragments data for DELETE request in FRAGMENTS-UI', { data });
+    return data;
+    
+  } catch (err) {
+    console.error('Unable to call DELETE/v1/fragment', { err });
+  }
+}
+
 export async function getUserFragmentsViaExpand(user) {
   console.log('GET/ expand user fragments data... TO UI');
  
