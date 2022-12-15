@@ -3,6 +3,7 @@
 import { Auth, getUser } from './auth';
 import { getUserFragments, deleteFragments,postFragments,getUserFragmentsById,getUserFragmentsViaExpand,putFragments } from './api';
 import { ConsoleLogger } from '@aws-amplify/core';
+import { doc } from 'prettier';
 
 async function init() {
   // Get our UI elements
@@ -13,6 +14,8 @@ async function init() {
   const putRequestBtn = document.querySelector('#putrequest');
   const deleteRequestBtn = document.querySelector('#deleterequest');
   const getExpandRequestBtn= document.querySelector('#getexpandrequest');
+  const postDropDown= document.querySelector('#post-drop-down');
+  const convertRequestBtn = document.querySelector('#convertrequest');
   // Wire up event handlers to deal with login and logout.
   loginBtn.onclick = () => {
     // Sign-in via the Amazon Cognito Hosted UI (requires redirects), see:
@@ -24,18 +27,40 @@ async function init() {
     // https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/#sign-out
     Auth.signOut();
   };
-  postRequestBtn.onclick = async () => {
+  
+
+  let inputImage = document.querySelector('#post-image-body');
+  let imageBuffer;
+  inputImage.addEventListener('change',  async (event) => {
+    const imageFile = event.target.files[0];
+    let reader = new FileReader();
+    reader.onload = function() {
+      const readResult = reader.result;
+      const buffer = Buffer.from(new Uint8Array(readResult))
+      imageBuffer = buffer;
+    }
+    reader.readAsArrayBuffer(imageFile);
+  });
+  postRequestBtn.onclick = async (e) => {
+    e.preventDefault();
     //Sends post request to create a new fragment
-    const postResult =  await postFragments(user);
+    const postResult =  await postFragments(user,imageBuffer);
     //Console log the ID of the newly created fragment
     console.log("POST RESULT ID: " + postResult.fragment.id);
-    //Get that newly created fragment by a GET /:ID request
-    //  await getUserFragmentsById(user,postResult.fragment.id);
-
     const fragmentsData = await getUserFragments(user);
     const fragmentsDataList = fragmentsData.fragments;
-
     updateSelectBar(fragmentsDataList)
+  };
+
+  convertRequestBtn.onclick = async (e) => {
+    e.preventDefault();
+    //Sends post request to create a new fragment
+    const convertResult =  await getUserFragmentsById(user);
+    //Console log the ID of the newly created fragment
+    console.log("CONVERT RESULT ID: " + convertResult);
+    // const fragmentsData = await getUserFragments(user);
+    // const fragmentsDataList = fragmentsData.fragments;
+    // updateSelectBar(fragmentsDataList)
   };
   putRequestBtn.onclick = async ()=>{
     const putResult =  await putFragments(user);
@@ -43,13 +68,10 @@ async function init() {
   deleteRequestBtn.onclick = async () => {
     try { 
       await deleteFragments(user);
-
       // update select bar after every successful delete
       const fragmentsData = await getUserFragments(user);
       const fragmentsDataList = fragmentsData.fragments;
-
       updateSelectBar(fragmentsDataList)
-
     } catch(err) {
       console.log(err)
     }
@@ -87,14 +109,17 @@ async function init() {
 
   updateSelectBar(fragmentsDataList)
 
-  
-
-  
-
-  // Populate select bar for put request
-
-  
-  
+  postDropDown.addEventListener('change',()=>{
+    const fileUpload = document.querySelector("#post-image-body");
+    const bodyTextBox = document.querySelector("#post-body");
+    if(postDropDown.value.startsWith("image") ){
+      fileUpload.hidden=false;
+      bodyTextBox.hidden=true;
+      }else{
+        fileUpload.hidden=true;
+        bodyTextBox.hidden=false;
+      }
+  })
 }
 
 function createSelectBar(fragmentsDataList) {
@@ -115,6 +140,8 @@ function updateSelectBar(fragmentsDataList) {
   selectListDelete.id = "deleteRequestId"
   var selectListPut = createSelectBar(fragmentsDataList)
   selectListPut.id = "putRequestId"
+  var selectListConvert = createSelectBar(fragmentsDataList)
+  selectListConvert.id = "convertRequestId"
   
   // Populate select bar for delete request
   const deleteRequestElement = document.querySelector('#deleteRequestInput');
@@ -124,9 +151,15 @@ function updateSelectBar(fragmentsDataList) {
 
   // Populate select bar for put request
   const putRequestElement = document.querySelector('#putRequestInput');
-  putRequestElement.removeChild(putRequestElement.firstChild)
-  console.log(putRequestElement)
-  putRequestElement.appendChild(selectListPut)
+  putRequestElement.removeChild(putRequestElement.firstChild);
+  console.log(putRequestElement);
+  putRequestElement.appendChild(selectListPut);
+
+  
+  const convertRequestElement = document.querySelector('#convertRequestInput');
+  convertRequestElement.removeChild(convertRequestElement.firstChild);
+  console.log(convertRequestElement);
+  convertRequestElement.appendChild(selectListConvert);
 }
 
 // Wait for the DOM to be ready, then start the app

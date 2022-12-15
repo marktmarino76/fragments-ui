@@ -31,17 +31,21 @@ export async function getUserFragments(user) {
   }
 }
 
-export async function getUserFragmentsById(user,id) {
+export async function getUserFragmentsById(user) {
   console.log('Get specifc user /v1/fragments/:id data BY ID... in UI');
-  const dropDownOption = document.querySelector('#myDropdown');
+  const fragmentIdToConvert = document.querySelector('#convertRequestId').value;
+  const dropDownOption = document.querySelector('#convert-drop-down');
+  console.log("VALUE");
+console.log(dropDownOption.value);
   try {
-    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+    const res = await fetch(`${apiUrl}/v1/fragments/${fragmentIdToConvert}${dropDownOption.value}`, {
       // Generate headers with the proper Authorization bearer token to pass
-      headers: user.authorizationHeaders(dropDownOption.value),
+      headers: user.authorizationHeaders('text/plain'),
     });
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
+    console.log("GET HERE");
     const data = await res.text();
     console.log(data);
     return data;
@@ -51,16 +55,31 @@ export async function getUserFragmentsById(user,id) {
 }
 
 
-export async function postFragments(user) {
+export async function postFragments(user,imageBuffer) {
   console.log('Posting user fragments data... TO UI');
-  const dropDownOption = document.querySelector('#myDropdown');
-  const selectElement = document.querySelector('#thedata');
+  const dropDownOption = document.querySelector('#post-drop-down');
   try {
+  if(dropDownOption.value.startsWith("image")){
+           const res = await fetch(`${apiUrl}/v1/fragments`, {
+            method: 'POST',
+            headers: user.authorizationHeaders(dropDownOption.value),
+            body: imageBuffer,
+            cache: 'no-cache'
+         });
+         if (!res.ok) {
+           throw new Error(`${res.status} ${res.statusText}`);
+         }
+         const data = await res.json();
+         console.log('POST: - user fragments data for post request in FRAGMENTS-UI', { data });
+         return data;
+
+  }else{
+    const bodyText = document.querySelector('#post-body');
+    
     const res = await fetch(`${apiUrl}/v1/fragments`, {
-      // Generate headers with the proper Authorization bearer token to pass
        headers: user.authorizationHeaders(dropDownOption.value),
        method: 'POST',
-       body: await selectElement.value,
+       body: await bodyText.value,
        cache: 'no-cache'
     });
     if (!res.ok) {
@@ -70,9 +89,11 @@ export async function postFragments(user) {
     console.log('POST: - user fragments data for post request in FRAGMENTS-UI', { data });
     return data;
     
-  } catch (err) {
+  }
+ } catch (err) {
     console.error('Unable to call POST/v1/fragment', { err });
   }
+
 }
 
 export async function putFragments(user){

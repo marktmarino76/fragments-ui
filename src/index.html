@@ -16,32 +16,47 @@
         <section>
           <h3><u>Create Post Request</u></h3>  
           <label><b>Enter a Content-Type for the Post Request:</b></label>
-            <select id = "myDropdown" >  
+            <select id = "post-drop-down" >  
               <option> ---Choose the type of fragment you would like to POST--- </option>  
               <option value="application/json"> application/json </option>  
               <option value="text/plain"> text/plain </option>  
               <option value="text/markdown"> text/markdown </option>  
               <option value="text/html"> text/html </option>  
+              <option value="image/png"> image/png</option>
+              <option value="image/jpeg"> image/jpg </option>  
+              <option value="image/webp"> image/webp</option>
+              <option value="image/gif"> image/gif</option>
               </select>  
               <break></break>
               <label><b>Enter text for the body of the Post Request:</b></label>
-              <input id="thedata" type="text"></input>
-             
+              <input id="post-body" type="text"></input>
+           
+              <input hidden="hidden"type="file" id="post-image-body" name="image-file" accept="image/jpeg, image/png, image/jpg, image/webp, image/gif" />
           <button id="postrequest">Send Post Request</button>
         </section>
+        <h3><u>Convert Fragment</u></h3>  
+        <label><b>Select an ID you would like to convert:</b></label>
+        <div id="convertRequestInput">data loading ...</div>
+        <label><b>Choose the type you would like to convert to:</b></label>
+          <select id = "convert-drop-down" >  
+            <option> ---Choose the type of fragment you would like to CONVERT to--- </option>  
+            <option value=".html"> .html </option>  
+            <option value=".png"> .png </option>  
+            <option value=".jpg"> .jpg </option>  
+            </select>  
+            <break></break>
+
+        <button id="convertrequest">Send GET convert request</button>
 
         <hr style="margin-top:50px; height:12px; background:black;">
         <div id="deleteRequestContainer" >
-          <section>
             <h3><u>Create Delete Request</u></h3>  
                 <break></break>
                 <label><b>Enter the ID of the fragment you would like to delete:</b></label>
 
-                <!-- <input id="deleteRequestId" type="text"></input> -->
                 <div id="deleteRequestInput"> Loading data ... </div>
 
             <button id="deleterequest">Send Delete Request</button>
-          </section>
         </div>
         
 
