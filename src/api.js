@@ -21,9 +21,7 @@ export async function getUserFragments(user) {
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
-    console.log(res);
     const data = await res.json();
-    console.log("HEY THERE SALLY");
     console.log('GET list of user fragments data... UI', data.fragments );
     return data;
   } catch (err) {
@@ -35,8 +33,6 @@ export async function getUserFragmentsById(user) {
   console.log('Get specifc user /v1/fragments/:id data BY ID... in UI');
   const fragmentIdToConvert = document.querySelector('#convertRequestId').value;
   const dropDownOption = document.querySelector('#convert-drop-down');
-  console.log("VALUE");
-console.log(dropDownOption.value);
   try {
     const res = await fetch(`${apiUrl}/v1/fragments/${fragmentIdToConvert}${dropDownOption.value}`, {
       // Generate headers with the proper Authorization bearer token to pass
@@ -45,9 +41,7 @@ console.log(dropDownOption.value);
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
-    console.log("GET HERE");
     const data = await res.text();
-    console.log(data);
     return data;
   } catch (err) {
     console.error('Unable to call GET /v1/fragment/:id', { err });

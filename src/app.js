@@ -76,9 +76,9 @@ async function init() {
       console.log(err)
     }
   }
-  getExpandRequestBtn.onclick = async () => {
-    await getUserFragmentsViaExpand(user);
-  };
+  // getExpandRequestBtn.onclick = async () => {
+  //   await getUserFragmentsViaExpand(user);
+  // };
   // See if we're signed in (i.e., we'll have a `user` object)
   const user = await getUser();
    // Do an authenticated request to the fragments API server and log the result
@@ -146,13 +146,11 @@ function updateSelectBar(fragmentsDataList) {
   // Populate select bar for delete request
   const deleteRequestElement = document.querySelector('#deleteRequestInput');
   deleteRequestElement.removeChild(deleteRequestElement.firstChild)
-  console.log(deleteRequestElement)
   deleteRequestElement.appendChild(selectListDelete)
 
   // Populate select bar for put request
   const putRequestElement = document.querySelector('#putRequestInput');
   putRequestElement.removeChild(putRequestElement.firstChild);
-  console.log(putRequestElement);
   putRequestElement.appendChild(selectListPut);
 
   
